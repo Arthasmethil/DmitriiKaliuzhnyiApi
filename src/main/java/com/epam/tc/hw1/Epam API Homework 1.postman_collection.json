@@ -1,0 +1,689 @@
+{
+	"info": {
+		"_postman_id": "a7ba84d4-c2d4-4910-9182-f78730249ca8",
+		"name": "Epam API Homework 1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "Create board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"boardId\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verify board is created\", function () {\r",
+									"    pm.expect(response.name).to.eql(pm.environment.get(\"boardName\"));\r",
+									"    pm.expect(response.closed).to.equal(false);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board isn't closed\", function () {\r",
+									"    pm.expect(response.closed).to.equal(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{coreUrl}}/{{boards}}/?name={{boardName}}",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{boards}}",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{boardName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify board is updated\", function () {\r",
+									"    pm.expect(response.name).to.eql(pm.environment.get(\"boardNewName\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{boards}}/:id?name={{boardNewName}}",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{boards}}",
+								":id"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{boardNewName}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{boardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify board name\", function () {\r",
+									"    pm.expect(response.name).to.eql(pm.environment.get(\"boardNewName\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify board id\", function () {\r",
+									"    pm.expect(response.id).to.eql(pm.environment.get(\"boardId\"))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{boards}}/:id",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{boards}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{boardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "List",
+			"item": [
+				{
+					"name": "Create list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"listId\", jsonData.id);\r",
+									"postman.setEnvironmentVariable(\"listName\", jsonData.name);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Check name not empty\", function () {\r",
+									"    pm.expect(response.name).not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{lists}}?name={{$randomWords}}&idBoard={{boardId}}",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{lists}}"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{$randomWords}}"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{boardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check the created list is updated\", function () {\r",
+									"    pm.expect(response.name).to.eql(pm.environment.get(\"newListName\"));\r",
+									"    pm.expect(response.id).to.eql(pm.environment.get(\"listId\"))\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{lists}}/:id?name={{newListName}}",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{lists}}",
+								":id"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{newListName}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{listId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List isn't closed\", function () {\r",
+									"    pm.expect(response.id).to.eql(pm.environment.get(\"listId\"));\r",
+									"    pm.expect(response.closed).to.eql(false); \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{lists}}/:id",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{lists}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{listId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Card",
+			"item": [
+				{
+					"name": "Create card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"cardId\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{coreUrl}}/{{cards}}?idList={{listId}}",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{cards}}"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check color of a card\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.cover.color).to.eql(null);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{cards}}/:id",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{cards}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{cardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cover\" : {\r\n        \"color\": \"pink\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{coreUrl}}/{{cards}}/:id",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{cards}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{cardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Updated card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check id card\", function () {\r",
+									"    pm.expect(response.id).to.eql(pm.environment.get(\"cardId\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check color of a card\", function () {\r",
+									"    pm.expect(response.cover.color).to.eql(\"pink\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{cards}}/:id",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{cards}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{cardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete board",
+			"item": [
+				{
+					"name": "Delete board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board is null\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData._value).to.eql(null);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{boards}}/:id",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{boards}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{boardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check deleted board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Board not found\", function () {\r",
+									"    pm.response.to.have.body(\"The requested resource was not found.\");\r",
+									"});\r",
+									"\r",
+									"pm.environment.unset(\"boardId\");\r",
+									"pm.environment.unset(\"listName\");\r",
+									"pm.environment.unset(\"listId\");\r",
+									"pm.environment.unset(\"cardId\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{coreUrl}}/{{boards}}/:id",
+							"protocol": "https",
+							"host": [
+								"{{coreUrl}}"
+							],
+							"path": [
+								"{{boards}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{boardId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth1",
+		"oauth1": [
+			{
+				"key": "tokenSecret",
+				"value": "{{secret}}",
+				"type": "string"
+			},
+			{
+				"key": "token",
+				"value": "{{privateToken}}",
+				"type": "string"
+			},
+			{
+				"key": "consumerSecret",
+				"value": "{{secret}}",
+				"type": "string"
+			},
+			{
+				"key": "consumerKey",
+				"value": "{{key}}",
+				"type": "string"
+			},
+			{
+				"key": "addParamsToHeader",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "signatureMethod",
+				"value": "HMAC-SHA1",
+				"type": "string"
+			},
+			{
+				"key": "version",
+				"value": "1.0",
+				"type": "string"
+			},
+			{
+				"key": "addEmptyParamsToSign",
+				"value": false,
+				"type": "boolean"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
