@@ -1,0 +1,6 @@
+/target/
+.idea/
+.allure
+allure-results
+**/*.iml
+/lib/
