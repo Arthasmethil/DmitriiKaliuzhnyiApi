@@ -1,0 +1,75 @@
+package com.epam.tc.hw2.domain;
+
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.ARCHIVE_LIST;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.BOARDS_END_POINT;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.BOARDS_END_POINT_BY_ID;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.DEFAULT_BOARD_NAME;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.DEFAULT_LIST_NAME;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.LIST_END_POINT;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.LIST_END_POINT_BY_ID;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.LIST_END_POINT_ID_CLOSED;
+import static com.epam.tc.hw2.data.and.support.EndPointsAndConstants.UPDATED_LIST_NAME;
+import static com.epam.tc.hw2.data.and.support.RequestData.REQUEST_SPECIFICATION;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.is;
+
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class ListTest {
+    private String boardId;
+    private String listId;
+
+    @BeforeMethod
+    public void setup() {
+        Response boardResponse = given(REQUEST_SPECIFICATION)
+            .queryParam("name", DEFAULT_BOARD_NAME)
+            .post(BOARDS_END_POINT);
+        boardId = boardResponse.then().extract().path("id");
+
+        Response listResponse = given(REQUEST_SPECIFICATION)
+            .queryParam("name", DEFAULT_LIST_NAME)
+            .queryParam("idBoard", boardId)
+            .post(LIST_END_POINT);
+        listId = listResponse.then().extract().path("id");
+    }
+
+    @AfterMethod
+    public void teardown() {
+        given(REQUEST_SPECIFICATION).delete(BOARDS_END_POINT_BY_ID, boardId);
+    }
+
+    @Test
+    public void createList() {
+        given(REQUEST_SPECIFICATION)
+            .get(LIST_END_POINT_BY_ID, listId)
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .and()
+            .body("id", is(listId), "name", is(DEFAULT_LIST_NAME));
+    }
+
+    @Test
+    public void deleteListAndGetDeletedList() {
+        given(REQUEST_SPECIFICATION)
+            .queryParam("value", ARCHIVE_LIST)
+            .put(LIST_END_POINT_ID_CLOSED, listId)
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .body("closed", is(ARCHIVE_LIST));
+    }
+
+    @Test
+    public void updateList() {
+        given(REQUEST_SPECIFICATION)
+            .queryParam("name", UPDATED_LIST_NAME)
+            .put(LIST_END_POINT_BY_ID, listId)
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .and()
+            .body("id", is(listId), "name", is(UPDATED_LIST_NAME));
+    }
+}
