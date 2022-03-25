@@ -57,7 +57,7 @@ public class CardTest {
         given(REQUEST_SPECIFICATION).delete(BOARDS_END_POINT_BY_ID, boardId);
     }
 
-    @Test
+    @Test(description = "Create a card")
     public void createCard() {
         String cardId = getCardId();
         given(REQUEST_SPECIFICATION)
@@ -68,7 +68,7 @@ public class CardTest {
             .body("id", is(cardId), "name", is(DEFAULT_CARD_NAME));
     }
 
-    @Test
+    @Test(description = "Delete a card")
     public void deleteCard() {
         String cardId = getCardId();
         given(REQUEST_SPECIFICATION)
@@ -78,7 +78,7 @@ public class CardTest {
             .statusCode(HttpStatus.SC_OK);
     }
 
-    @Test
+    @Test(description = "Update a card")
     public void updateCard() {
         String cardId = getCardId();
         given(REQUEST_SPECIFICATION)
@@ -91,7 +91,7 @@ public class CardTest {
             .body("cover.color", is(CARD_COLOR));
     }
 
-    @Test
+    @Test(description = "Create a label for the card")
     public void createLabelCard() {
         String cardId = getCardId();
         String labelId = given(REQUEST_SPECIFICATION)
@@ -109,7 +109,7 @@ public class CardTest {
             .body("name", is(LABEL_NAME), "color", is(LABEL_COLOR), "id", is(labelId));
     }
 
-    @Test
+    @Test(description = "Delete a label from the card")
     public void deleteLabelCard() {
         String cardId = getCardId();
         String labelId = given(REQUEST_SPECIFICATION)

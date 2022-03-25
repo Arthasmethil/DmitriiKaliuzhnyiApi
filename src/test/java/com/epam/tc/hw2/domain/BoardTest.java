@@ -31,7 +31,7 @@ public class BoardTest {
         given(REQUEST_SPECIFICATION).delete(BOARDS_END_POINT_BY_ID, boardId);
     }
 
-    @Test
+    @Test(description = "Create a board")
     public void createBoard() {
         given(REQUEST_SPECIFICATION)
             .get(BOARDS_END_POINT_BY_ID, boardId)
@@ -41,7 +41,7 @@ public class BoardTest {
             .body("id", is(boardId), "name", is(DEFAULT_BOARD_NAME));
     }
 
-    @Test
+    @Test(description = "Delete a board, and then get the deleted board")
     public void deleteBoardAndGetDeletedBoard() {
         given(REQUEST_SPECIFICATION)
             .delete(BOARDS_END_POINT_BY_ID, boardId)
@@ -54,7 +54,7 @@ public class BoardTest {
             .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    @Test
+    @Test(description = "Update a board")
     public void updateBoard() {
         given(REQUEST_SPECIFICATION)
             .queryParam("desc", DEFAULT_BOARD_DESCRIPTION)
