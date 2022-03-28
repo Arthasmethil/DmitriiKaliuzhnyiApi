@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Homework two api" verbose="1" >
+  <test name="Trello api with java">
+    <packages>
+      <package name = "com.epam.tc.hw2.*"/>
+    </packages>
+  </test>
+</suite>
