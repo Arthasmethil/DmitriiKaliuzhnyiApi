@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Homework three api" verbose="1" >
+  <test name="Trello api functional level">
+    <packages>
+      <package name = "com.epam.tc.hw3.*"/>
+    </packages>
+  </test>
+</suite>
