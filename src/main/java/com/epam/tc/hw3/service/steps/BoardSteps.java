@@ -5,27 +5,21 @@ import static com.epam.tc.hw3.utils.Endpoints.BOARDS_END_POINT_BY_ID;
 
 import com.epam.tc.hw3.dto.BoardDto;
 import com.epam.tc.hw3.service.CommonService;
-import com.google.gson.Gson;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import java.util.HashMap;
 import java.util.Map;
 import org.apache.http.HttpStatus;
 
 public class BoardSteps extends CommonService {
 
     public BoardDto createBoard (String name) {
-        Map<String, String> params = new HashMap<>();
-        params.put("name", name);
-        return
-            new Gson().fromJson(
-                new CommonService()
-                    .makeRequest(Method.POST,BOARDS_END_POINT, params)
-                    .then()
-                    .statusCode(HttpStatus.SC_OK)
-                    .extract()
-                    .response()
-                    .getBody().asString(), BoardDto.class);
+        return createDtoObject(
+            new CommonService()
+                .makeRequest(Method.POST, BOARDS_END_POINT, Map.of("name", name))
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .response(), BoardDto.class);
     }
 
     public Response getBoard(String id) {

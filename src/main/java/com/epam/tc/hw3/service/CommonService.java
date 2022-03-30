@@ -4,6 +4,7 @@ import static com.epam.tc.hw3.utils.Constants.CONTENT_TYPE;
 import static io.restassured.RestAssured.given;
 
 import com.epam.tc.hw3.utils.PropertiesProvider;
+import com.google.gson.Gson;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.Method;
@@ -38,10 +39,7 @@ public class CommonService {
         return given(REQUEST_SPECIFICATION).body(bodyParams).request(method, endpoint);
     }
 
-    public Response post(String endpoint, Map<String, String> params) {
-        return given(REQUEST_SPECIFICATION)
-            .queryParams(params)
-            .post(endpoint);
+    public <T> T createDtoObject(Response response, Class<T> dtoClass) {
+        return new Gson().fromJson(response.getBody().asString(), dtoClass);
     }
-
 }

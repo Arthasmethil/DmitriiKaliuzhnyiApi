@@ -7,7 +7,6 @@ import static com.epam.tc.hw3.utils.Endpoints.LIST_END_POINT_ID_CLOSED;
 import com.epam.tc.hw3.dto.BoardDto;
 import com.epam.tc.hw3.dto.ListDto;
 import com.epam.tc.hw3.service.CommonService;
-import com.google.gson.Gson;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import java.util.HashMap;
@@ -17,18 +16,13 @@ import org.apache.http.HttpStatus;
 public class ListSteps extends CommonService {
 
     public ListDto createList (String name, BoardDto board) {
-        Map<String, String> params = new HashMap<>();
-        params.put("name", name);
-        params.put("idBoard", board.getId());
-        return
-            new Gson().fromJson(
-                new CommonService()
-                    .makeRequest(Method.POST, LIST_END_POINT, params)
-                    .then()
-                    .statusCode(HttpStatus.SC_OK)
-                    .extract()
-                    .response()
-                    .getBody().asString(), ListDto.class);
+        return createDtoObject(
+            new CommonService()
+                .makeRequest(Method.POST, LIST_END_POINT, Map.of("name", name, "idBoard", board.getId()))
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .response(), ListDto.class);
     }
 
     public Response getList(String id) {
