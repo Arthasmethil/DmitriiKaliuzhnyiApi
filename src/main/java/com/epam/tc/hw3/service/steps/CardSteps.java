@@ -7,6 +7,7 @@ import com.epam.tc.hw3.dto.CardDto;
 import com.epam.tc.hw3.dto.ListDto;
 import com.epam.tc.hw3.service.CommonService;
 import com.google.gson.Gson;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,12 +31,12 @@ public class CardSteps extends CommonService {
     }
 
     public Response getCard(String id) {
-        return get(String.format(CARDS_END_POINT_BY_ID, id));
+        return makeRequest(Method.GET, String.format(CARDS_END_POINT_BY_ID, id));
     }
 
     public Response updateCoverCard(String id, String color) {
         String colorValue = "{ \"cover\" : {\"color\" : \"" + color + "\"} }";
-        return putWithBody(String.format(CARDS_END_POINT_BY_ID, id), colorValue);
+        return makeRequest(Method.PUT, String.format(CARDS_END_POINT_BY_ID, id), colorValue);
     }
 
 }

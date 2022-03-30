@@ -10,17 +10,15 @@ import io.restassured.response.Response;
 public class ListAssertions extends CommonAssertions {
 
     public ListAssertions checkName(ListDto list, String expectedListName) {
-        String listName = list.getName();
-        assertThat(listName)
-            .as(DESCRIPTION_NAME, listName, expectedListName)
+        assertThat(list.getName())
+            .as(DESCRIPTION_NAME, list.getName(), expectedListName)
             .isEqualTo(expectedListName);
         return this;
     }
 
     public ListAssertions checkId(ListDto list, String expectedListId) {
-        String listId = list.getId();
-        assertThat(listId)
-            .as(DESCRIPTION_ID, listId, expectedListId)
+        assertThat(list.getId())
+            .as(DESCRIPTION_ID, list.getId(), expectedListId)
             .isEqualTo(expectedListId);
         return this;
     }

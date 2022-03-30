@@ -22,25 +22,22 @@ import org.testng.annotations.Test;
 
 public class LabelTest {
 
-    BoardSteps boardAction;
-    ListSteps listAction;
-    CardSteps cardAction;
-    LabelSteps labelAction;
-    LabelAssertions labelAssertions;
-    BoardDto board;
-    ListDto list;
-    CardDto card;
-    String idLabel;
+    private BoardSteps boardAction;
+    private LabelSteps labelAction;
+    private LabelAssertions labelAssertions;
+    private BoardDto board;
+    private CardDto card;
+    private String idLabel;
 
     @BeforeMethod
     public void setup() {
         boardAction = new BoardSteps();
-        listAction = new ListSteps();
-        cardAction = new CardSteps();
+        ListSteps listAction = new ListSteps();
+        CardSteps cardAction = new CardSteps();
         labelAction = new LabelSteps();
         labelAssertions = new LabelAssertions();
         board = boardAction.createBoard(DEFAULT_BOARD_NAME);
-        list = listAction.createList(DEFAULT_LIST_NAME, board);
+        ListDto list = listAction.createList(DEFAULT_LIST_NAME, board);
         card = cardAction.createCard(DEFAULT_CARD_NAME, list);
     }
 
@@ -75,7 +72,7 @@ public class LabelTest {
         labelAssertions.checkDeletedLabel(deleteLabelResponse)
                        .checkStatus(deleteLabelResponse, HttpStatus.SC_OK);
 
-        Response getDeletedLabelResponse = labelAction.getLabelForStatus(idLabel);
+        Response getDeletedLabelResponse = labelAction.getLabel(idLabel);
         labelAssertions.checkStatus(getDeletedLabelResponse, HttpStatus.SC_NOT_FOUND);
     }
 }

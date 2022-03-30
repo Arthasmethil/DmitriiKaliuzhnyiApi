@@ -17,11 +17,11 @@ import org.testng.annotations.Test;
 
 public class ListTest {
 
-    BoardSteps boardAction;
-    ListAssertions listAssertions;
-    ListSteps listAction;
-    BoardDto board;
-    String idList;
+    private BoardSteps boardAction;
+    private ListAssertions listAssertions;
+    private ListSteps listAction;
+    private BoardDto board;
+    private String idList;
 
     @BeforeMethod
     public void setup() {
@@ -56,8 +56,8 @@ public class ListTest {
 
         ListDto listDto = listAction.createList(name, board);
         idList = listDto.getId();
-        Response closeListResponse = listAction.closeOrOpenList(listDto.getId(), ARCHIVE_LIST);
 
+        Response closeListResponse = listAction.closeOrOpenList(listDto.getId(), ARCHIVE_LIST);
         listAssertions.checkName(listDto, name)
                       .checkId(listDto, idList)
                       .checkClosedList(closeListResponse)

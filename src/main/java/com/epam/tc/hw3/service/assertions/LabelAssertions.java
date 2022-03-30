@@ -11,25 +11,22 @@ import io.restassured.response.Response;
 public class LabelAssertions extends CommonAssertions {
 
     public LabelAssertions checkName(LabelDto labelDto, String expectedLabelName) {
-        String labelName = labelDto.getName();
-        assertThat(labelName)
-            .as(DESCRIPTION_NAME, labelName, expectedLabelName)
+        assertThat(labelDto.getName())
+            .as(DESCRIPTION_NAME, labelDto.getName(), expectedLabelName)
             .isEqualTo(expectedLabelName);
         return this;
     }
 
     public LabelAssertions checkId(LabelDto labelDto, String expectedLabelId) {
-        String labelId = labelDto.getId();
-        assertThat(labelId)
-            .as(DESCRIPTION_ID, labelId, expectedLabelId)
+        assertThat(labelDto.getId())
+            .as(DESCRIPTION_ID, labelDto.getId(), expectedLabelId)
             .isEqualTo(expectedLabelId);
         return this;
     }
 
     public LabelAssertions checkColor(LabelDto labelDto, String expectedLabelColor) {
-        String labelColor = labelDto.getColor();
-        assertThat(labelColor)
-            .as(DESCRIPTION_COLOR, labelColor, expectedLabelColor)
+        assertThat(labelDto.getColor())
+            .as(DESCRIPTION_COLOR, labelDto.getColor(), expectedLabelColor)
             .isEqualTo(expectedLabelColor);
         return this;
     }

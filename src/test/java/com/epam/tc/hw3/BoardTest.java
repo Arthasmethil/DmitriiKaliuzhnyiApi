@@ -12,9 +12,9 @@ import org.testng.annotations.Test;
 
 public class BoardTest {
 
-    BoardSteps boardAction;
-    BoardAssertions boardAssertions;
-    String idBoard;
+    private BoardSteps boardAction;
+    private BoardAssertions boardAssertions;
+    private String idBoard;
 
     @BeforeMethod
     public void setup() {
@@ -35,12 +35,9 @@ public class BoardTest {
         BoardDto board = boardAction.createBoard(name);
         idBoard = board.getId();
 
-        boardAction.getBoard(board.getId())
-               .then()
-               .statusCode(HttpStatus.SC_OK);
-
         boardAssertions.checkName(board, name)
-                       .checkId(board, idBoard);
+                       .checkId(board, idBoard)
+                       .checkStatus(boardAction.getBoard(board.getId()), HttpStatus.SC_OK);
     }
 
     @Test(dataProvider = "testDataForBoard",
@@ -55,7 +52,7 @@ public class BoardTest {
         boardAssertions.checkDeletedBoard(deleteBoard)
                        .checkStatus(deleteBoard, HttpStatus.SC_OK);
 
-        Response getDeletedBoard = boardAction.getBoardForStatus(idBoard);
+        Response getDeletedBoard = boardAction.getBoard(idBoard);
         boardAssertions.checkStatus(getDeletedBoard, HttpStatus.SC_NOT_FOUND);
     }
 }

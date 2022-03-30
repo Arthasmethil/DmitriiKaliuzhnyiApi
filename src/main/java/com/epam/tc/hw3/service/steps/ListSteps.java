@@ -8,6 +8,7 @@ import com.epam.tc.hw3.dto.BoardDto;
 import com.epam.tc.hw3.dto.ListDto;
 import com.epam.tc.hw3.service.CommonService;
 import com.google.gson.Gson;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +32,12 @@ public class ListSteps extends CommonService {
     }
 
     public Response getList(String id) {
-        return get(String.format(LIST_END_POINT_BY_ID, id));
+        return makeRequest(Method.GET, String.format(LIST_END_POINT_BY_ID, id));
     }
 
     public Response closeOrOpenList(String id, String trueOrFalse) {
         Map<String, String> params = new HashMap<>();
         params.put("value", trueOrFalse);
-        return put(String.format(LIST_END_POINT_ID_CLOSED, id), params);
+        return makeRequest(Method.PUT, String.format(LIST_END_POINT_ID_CLOSED, id), params);
     }
 }

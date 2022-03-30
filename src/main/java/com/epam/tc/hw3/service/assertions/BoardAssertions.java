@@ -10,17 +10,15 @@ import io.restassured.response.Response;
 public class BoardAssertions extends CommonAssertions {
 
     public BoardAssertions checkName(BoardDto board, String expectedBoardName) {
-        String boardName = board.getName();
-        assertThat(boardName)
-            .as(DESCRIPTION_NAME, boardName, expectedBoardName)
+        assertThat(board.getName())
+            .as(DESCRIPTION_NAME, board.getName(), expectedBoardName)
             .isEqualTo(expectedBoardName);
         return this;
     }
 
     public BoardAssertions checkId(BoardDto board, String expectedBoardId) {
-        String boardId = board.getId();
-        assertThat(boardId)
-            .as(DESCRIPTION_ID, boardId, expectedBoardId)
+        assertThat(board.getId())
+            .as(DESCRIPTION_ID, board.getId(), expectedBoardId)
             .isEqualTo(expectedBoardId);
         return this;
     }

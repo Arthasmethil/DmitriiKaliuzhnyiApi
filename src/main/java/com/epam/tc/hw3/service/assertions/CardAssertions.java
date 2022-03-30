@@ -11,17 +11,15 @@ import io.restassured.response.Response;
 public class CardAssertions extends CommonAssertions {
 
     public CardAssertions checkName(CardDto cardDto, String expectedCardName) {
-        String cardName = cardDto.getName();
-        assertThat(cardName)
-            .as(DESCRIPTION_NAME, cardName, expectedCardName)
+        assertThat(cardDto.getName())
+            .as(DESCRIPTION_NAME, cardDto.getName(), expectedCardName)
             .isEqualTo(expectedCardName);
         return this;
     }
 
     public CardAssertions checkId(CardDto cardDto, String expectedCardId) {
-        String cardId = cardDto.getId();
-        assertThat(cardId)
-            .as(DESCRIPTION_ID, cardId, expectedCardId)
+        assertThat(cardDto.getId())
+            .as(DESCRIPTION_ID, cardDto.getId(), expectedCardId)
             .isEqualTo(expectedCardId);
         return this;
     }

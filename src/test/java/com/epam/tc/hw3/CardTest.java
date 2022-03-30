@@ -19,18 +19,17 @@ import org.testng.annotations.Test;
 
 public class CardTest {
 
-    BoardSteps boardAction;
-    ListSteps listAction;
-    CardSteps cardAction;
-    CardAssertions cardAssertions;
-    BoardDto board;
-    ListDto list;
-    String idCard;
+    private BoardSteps boardAction;
+    private CardSteps cardAction;
+    private CardAssertions cardAssertions;
+    private BoardDto board;
+    private ListDto list;
+    private String idCard;
 
     @BeforeMethod
     public void setup() {
         boardAction = new BoardSteps();
-        listAction = new ListSteps();
+        ListSteps listAction = new ListSteps();
         cardAction = new CardSteps();
         cardAssertions = new CardAssertions();
         board = boardAction.createBoard(DEFAULT_BOARD_NAME);
