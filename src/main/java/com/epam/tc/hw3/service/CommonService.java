@@ -38,35 +38,10 @@ public class CommonService {
         return given(REQUEST_SPECIFICATION).body(bodyParams).request(method, endpoint);
     }
 
-
-    public Response get(String endpoint, int statusCode) {
-        return given(REQUEST_SPECIFICATION)
-            .get(endpoint)
-            .then()
-            .statusCode(statusCode)
-            .extract()
-            .response();
-    }
-
-    public Response delete(String endpoint) {
-        return given(REQUEST_SPECIFICATION).delete(endpoint);
-    }
-
     public Response post(String endpoint, Map<String, String> params) {
         return given(REQUEST_SPECIFICATION)
             .queryParams(params)
             .post(endpoint);
     }
 
-    public Response put(String endpoint, Map<String, String> params) {
-        return given(REQUEST_SPECIFICATION)
-            .queryParams(params)
-            .put(endpoint);
-    }
-
-    public Response putWithBody(String endpoint, String bodyParams) {
-        return given(REQUEST_SPECIFICATION)
-            .body(bodyParams)
-            .put(endpoint);
-    }
 }

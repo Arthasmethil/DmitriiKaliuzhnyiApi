@@ -23,7 +23,7 @@ public class ListSteps extends CommonService {
         return
             new Gson().fromJson(
                 new CommonService()
-                    .post(LIST_END_POINT, params)
+                    .makeRequest(Method.POST, LIST_END_POINT, params)
                     .then()
                     .statusCode(HttpStatus.SC_OK)
                     .extract()

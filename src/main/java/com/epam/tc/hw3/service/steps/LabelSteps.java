@@ -24,7 +24,7 @@ public class LabelSteps extends CommonService {
         return
             new Gson().fromJson(
                 new CommonService()
-                    .post(String.format(LABEL_FOR_CARD_END_POINT, idCard), params)
+                    .makeRequest(Method.POST, String.format(LABEL_FOR_CARD_END_POINT, idCard), params)
                     .then()
                     .statusCode(HttpStatus.SC_OK)
                     .extract()
