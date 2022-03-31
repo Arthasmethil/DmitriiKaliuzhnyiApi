@@ -4,13 +4,14 @@ import static com.epam.tc.hw3.utils.Constants.CONTENT_TYPE;
 import static io.restassured.RestAssured.given;
 
 import com.epam.tc.hw3.utils.PropertiesProvider;
-import com.google.gson.Gson;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.Map;
+import org.apache.http.HttpStatus;
 
 public class CommonService {
 
@@ -24,22 +25,35 @@ public class CommonService {
             .addQueryParam("token", properties.getProperty("token"))
             .addHeader("Content-type", CONTENT_TYPE)
             .addFilter(new ResponseLoggingFilter())
+            .addFilter(new RequestLoggingFilter())
             .build();
     }
 
     public Response makeRequest(Method method, String endpoint) {
-        return given(REQUEST_SPECIFICATION).request(method, endpoint);
+        return given(REQUEST_SPECIFICATION)
+            .request(method, endpoint)
+            .then()
+            .extract()
+            .response();
     }
 
     public Response makeRequest(Method method, String endpoint, Map<String, String> params) {
-        return given(REQUEST_SPECIFICATION).queryParams(params).request(method, endpoint);
+        return given(REQUEST_SPECIFICATION)
+            .queryParams(params)
+            .request(method, endpoint)
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .extract()
+            .response();
     }
 
     public Response makeRequest(Method method, String endpoint, String bodyParams) {
-        return given(REQUEST_SPECIFICATION).body(bodyParams).request(method, endpoint);
-    }
-
-    public <T> T createDtoObject(Response response, Class<T> dtoClass) {
-        return new Gson().fromJson(response.getBody().asString(), dtoClass);
+        return given(REQUEST_SPECIFICATION)
+            .body(bodyParams)
+            .request(method, endpoint)
+            .then()
+            .statusCode(HttpStatus.SC_OK)
+            .extract()
+            .response();
     }
 }
