@@ -20,13 +20,13 @@ public class ListAssertions extends CommonAssertions {
     }
 
     public ListAssertions checkClosedList(Response closedList) {
-        boolean statusList = closedList.then().extract().jsonPath().getBoolean("closed");
+        boolean statusList = extractedResponseForValue(closedList).jsonPath().getBoolean("closed");
         assertTrue(statusList);
         return this;
     }
 
     public ListAssertions checkOpenedList(Response openedList) {
-        boolean statusList = openedList.then().extract().jsonPath().getBoolean("closed");
+        boolean statusList = extractedResponseForValue(openedList).jsonPath().getBoolean("closed");
         assertFalse(statusList);
         return this;
     }

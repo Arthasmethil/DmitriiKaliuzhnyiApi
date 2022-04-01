@@ -12,8 +12,12 @@ public class CommonAssertions {
     }
 
     public CommonAssertions checkBodyIsNull(Response response) {
-        String value = response.then().extract().response().path("_value");
+        String value = extractedResponseForValue(response).path("_value");
         assertNull(value);
         return this;
+    }
+
+    public Response extractedResponseForValue (Response response) {
+        return response.then().extract().response();
     }
 }

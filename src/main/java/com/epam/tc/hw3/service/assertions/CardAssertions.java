@@ -18,7 +18,7 @@ public class CardAssertions extends CommonAssertions {
     }
 
     public CardAssertions checkUpdatedColor(Response updatedColorCard, String color) {
-        String value = updatedColorCard.then().extract().response().path("cover.color");
+        String value =  extractedResponseForValue(updatedColorCard).path("cover.color");
         assertEquals(value, color);
         return this;
     }
