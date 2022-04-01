@@ -32,13 +32,6 @@
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${testng.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -101,6 +94,12 @@
       <id>hw2</id>
       <properties>
         <testng.priority.file>${testng.config.path}/homeworkTwo.xml</testng.priority.file>
+      </properties>
+    </profile>
+    <profile>
+      <id>hw3</id>
+      <properties>
+        <testng.priority.file>${testng.config.path}/homeworkThree.xml</testng.priority.file>
       </properties>
     </profile>
   </profiles>
